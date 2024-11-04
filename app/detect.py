@@ -8,6 +8,15 @@ from ultralytics import YOLO
 
 yolo_model = YOLO("yolov9c.pt")
 
+LABEL_COLORS = {}
+
+
+def get_color_for_label(label):
+    if label not in LABEL_COLORS:
+        LABEL_COLORS[label] = tuple(np.random.randint(0, 255, size=3).tolist())
+    return LABEL_COLORS[label]
+
+
 detect_bp = Blueprint('detect', __name__)
 
 
@@ -34,9 +43,10 @@ def detect_objects():
                 label = yolo_model.names[int(box.cls)]
                 probability = f"{float(box.conf) * 100:.2f}%"
 
-                cv2.rectangle(image, (x1, y1), (x2, y2), (0, 255, 0), 2)
-                cv2.putText(image, f"{label} {probability}", (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0),
-                            2)
+                color = get_color_for_label(label)
+
+                cv2.rectangle(image, (x1, y1), (x2, y2), color, 2)
+                cv2.putText(image, f"{label} {probability}", (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 2)
 
                 tags.append({
                     "label": label,
