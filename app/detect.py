@@ -5,15 +5,14 @@ import cv2
 import numpy as np
 import base64
 from ultralytics import YOLO
+from colors import PREDEFINED_COLORS, LABEL_COLORS
 
 yolo_model = YOLO("yolov9c.pt")
-
-LABEL_COLORS = {}
 
 
 def get_color_for_label(label):
     if label not in LABEL_COLORS:
-        LABEL_COLORS[label] = tuple(np.random.randint(0, 255, size=3).tolist())
+        LABEL_COLORS[label] = PREDEFINED_COLORS[len(LABEL_COLORS) % len(PREDEFINED_COLORS)]
     return LABEL_COLORS[label]
 
 
