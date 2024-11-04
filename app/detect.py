@@ -5,7 +5,7 @@ import cv2
 import numpy as np
 import base64
 from ultralytics import YOLO
-from colors import PREDEFINED_COLORS, LABEL_COLORS
+from .colors import PREDEFINED_COLORS, LABEL_COLORS
 
 yolo_model = YOLO("yolov9c.pt")
 
